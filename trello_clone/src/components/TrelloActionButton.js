@@ -118,7 +118,7 @@ class TrelloActionButton extends React.Component {
         variant="contained" 
         style={{color: "white", backgroundColor: "#5aac44"}}
         > {buttonText} {" "} </Button>
-        <Icon style={{ marginLeft: 8, cursor: "pointer"}}>close</Icon>
+        <Icon style={{ marginLeft: 8, cursor: "pointer"}}></Icon>
       </div>
     </div>
   }
