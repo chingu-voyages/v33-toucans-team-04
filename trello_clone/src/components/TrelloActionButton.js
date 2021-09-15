@@ -62,19 +62,11 @@ class TrelloActionButton extends React.Component {
     const { list } = this.props;
 
     const buttonText = list ? "add another list" : "add another card"
-    const buttonTextOpacity = list ? 1 : 0.5;
-    const buttonTextColor = list ? "white" : "inherit";
-    const buttonTextBackground = list ? "rgba(0,0,0,0.15)" : "inherit";
+
 
     return(
       <div 
       onClick={this.openForm}
-      style={{
-        ...styles.openForButtonGroup,
-        opacity: buttonTextOpacity, 
-        color: buttonTextColor, 
-        backgroundColor: buttonTextBackground
-        }}
       >
         <Icon>add</Icon>
         <p>{buttonText}</p>
@@ -99,7 +91,7 @@ class TrelloActionButton extends React.Component {
       >
         <TextareaAutosize 
         placeholder={placeholder}
-        //autoFocus
+        autoFocus
         onBlur={this.closeForm}
         value={this.state.text}
         onChange={this.handleInputChange}
@@ -112,7 +104,7 @@ class TrelloActionButton extends React.Component {
         />
       </Card>
 
-      <div style={styles.formButtonGroup}>
+      <div>
         <Button 
         onMouseDown={list ? this.handleAddList : this.handleAddCard}
         variant="contained" 
@@ -129,21 +121,5 @@ class TrelloActionButton extends React.Component {
   }
 }
 
-const styles = {
-  openFormButtonGroup: {
-    display: "flex",
-    allignItems: "center",
-    cursor: "pointer",
-    borderRadius: 3,
-    height: 36,
-    width: 272,
-    paddingLeft: 7,
-  },
-  formButtonGroup: {
-    marginTop: 8,
-    display: "flex",
-    allignItems: "center",
-  }
-}
 
 export default connect() (TrelloActionButton);
