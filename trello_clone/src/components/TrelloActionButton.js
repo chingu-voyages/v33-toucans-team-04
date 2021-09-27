@@ -5,8 +5,8 @@ import Card from "@material-ui/core/Card"
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { addList, addCard } from "../actions";
-
 import { TextField } from "@material-ui/core";
+import { red } from "@material-ui/core/colors";
 
 class TrelloActionButton extends React.Component {
 
@@ -62,11 +62,19 @@ class TrelloActionButton extends React.Component {
     const { list } = this.props;
 
     const buttonText = list ? "add another list" : "add another card"
-
+    const buttonTextOpacity = list ? 1 : 0.5;
+    const buttonTextColor = list ? "white" : "inherit";
+    const buttonTextBackground = list ? "#e64a19" : "inherit";
 
     return(
       <div 
       onClick={this.openForm}
+      style={{
+        ...styles.openForButtonGroup,
+        opacity: buttonTextOpacity, 
+        color: buttonTextColor, 
+        backgroundColor: buttonTextBackground
+        }}
       >
         <Icon>add</Icon>
         <p>{buttonText}</p>
@@ -104,11 +112,11 @@ class TrelloActionButton extends React.Component {
         />
       </Card>
 
-      <div>
+      <div style={styles.formButtonGroup}>
         <Button 
         onMouseDown={list ? this.handleAddList : this.handleAddCard}
         variant="contained" 
-        style={{color: "white", backgroundColor: "#5aac44"}}
+        style={{color: "white", backgroundColor: "#e53935"}}
         > {buttonText} {" "} </Button>
         <Icon style={{ marginLeft: 8, cursor: "pointer"}}></Icon>
       </div>
@@ -121,5 +129,19 @@ class TrelloActionButton extends React.Component {
   }
 }
 
+const styles = {
+  openFormButtonGroup: {
+    display: "flex",
+    allignItems: "center",
+    cursor: "pointer",
+    borderRadius: 3,
+    paddingLeft: 7,
+  },
+  formButtonGroup: {
+    marginTop: 8,
+    display: "flex",
+    allignItems: "center",
+  }
+}
 
 export default connect() (TrelloActionButton);

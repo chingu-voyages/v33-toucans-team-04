@@ -1,44 +1,40 @@
 import { CardMedia } from "@material-ui/core";
+import { Droppable } from "react-beautiful-dnd";
 import { CONSTANTS } from "../actions";
 
 let listID = 2;
-let cardID = 3;
+let cardID = 5;
 
 const initialState = [
   {
     title: "TODO",
-    id: 0,
+    id: `list-${0}`,
     cards: [
       {
-        id: 0,
+        id: `card-${0}`,
         text: "create a static list and a static card",
-        user: "user1"
       },
       {
-        id: 1,
+        id: `card-${1}`,
         text: "we used a mix between material Ul React and styled componenets",
-        user: "user1"
       }
     ]
   },
   {
     title: "DOING",
-    id: 1,
+    id: `list-${1}`,
     cards: [
       {
-        id: 0,
+        id: `card-${2}`,
         text: "doing1",
-        user: "user2"
       },
       {
-        id: 1,
+        id: `card-${3}`,
         text: "doing2",
-        user: "user1"
       },
       {
-        id: 2,
+        id: `card-${4}`,
         text: "doing3",
-        user: "user2"
       }
     ]
   }
@@ -51,15 +47,15 @@ const listsReducer = (state = initialState , action) => {
       const newList = {
         title: action.payload,
         cards: [],
-        id: listID
+        id: `list-${listID}`
       }
       listID += 1
       return [...state, newList];
 
-    case CONSTANTS.ADD_CARD:
+    case CONSTANTS.ADD_CARD:{
       const newCard = {
         text: action.payload.text,
-        id: cardID,
+        id: `card-${cardID}`,
       }
       cardID += 1
       const newState = state.map(list => {
@@ -73,6 +69,47 @@ const listsReducer = (state = initialState , action) => {
         }
       });
       return newState;
+    }
+
+      case CONSTANTS.DRAG_HAPPENED:
+        const {
+          droppableIdStart,
+          droppableIdEnd,
+          droppableIndexStart,
+          droppableIndexEnd,
+          draggableId,
+          type,
+        } = action.payload;
+        const newState = [...state];
+
+        // dragging lists around
+        if(type === "list"){
+          const list = newState.splice(droppableIndexStart,1);
+          newState.splice(droppableIndexEnd, 0, ...list);
+          return newState;
+        }
+
+        
+        if(droppableIdStart === droppableIdEnd){ // in the same list 
+          const list = state.find(list => droppableIdStart === list.id);
+          const card = list.cards.splice(droppableIndexStart, 1);
+          list.cards.splice(droppableIndexEnd, 0, ...card);
+        }else if(droppableIdStart !== droppableIdEnd){ // other list
+          // find the list where drag happend
+          const listStart = state.find(list => droppableIdStart === list.id)
+
+          // pull out the card frome this list
+          const card = listStart.cards.splice(droppableIndexStart, 1);
+
+          // find the list where drag ended
+          const listEnd = state.find(list => droppableIdEnd === list.id);
+
+          //put the card in the new list
+          listEnd.cards.splice(droppableIndexEnd, 0, ...card);
+
+        }
+
+        return newState;
 
     default:
       return state;
