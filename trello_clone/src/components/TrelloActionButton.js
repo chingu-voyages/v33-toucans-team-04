@@ -5,8 +5,7 @@ import Card from "@material-ui/core/Card"
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { addList, addCard } from "../actions";
-import { TextField } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
+
 
 class TrelloActionButton extends React.Component {
 
@@ -64,7 +63,7 @@ class TrelloActionButton extends React.Component {
     const buttonText = list ? "add another list" : "add another card"
     const buttonTextOpacity = list ? 1 : 0.5;
     const buttonTextColor = list ? "white" : "inherit";
-    const buttonTextBackground = list ? "#e64a19" : "inherit";
+    const buttonTextBackground = list ? "#9499b7" : "inherit";
 
     return(
       <div 
@@ -116,7 +115,7 @@ class TrelloActionButton extends React.Component {
         <Button 
         onMouseDown={list ? this.handleAddList : this.handleAddCard}
         variant="contained" 
-        style={{color: "white", backgroundColor: "#e53935"}}
+        style={{color: "white", backgroundColor: "#aab3da"}}
         > {buttonText} {" "} </Button>
         <Icon style={{ marginLeft: 8, cursor: "pointer"}}></Icon>
       </div>
